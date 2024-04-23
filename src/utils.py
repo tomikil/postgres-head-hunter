@@ -3,7 +3,7 @@ from src.vacancyes import Vacancies
 import re
 
 
-def filling_classes(employers):
+def filling_classes(employers: list) -> list:
     """Заполнения класса работодателей и класс вакансии"""
     list_employers = []
 
@@ -39,30 +39,10 @@ def filling_classes(employers):
                               address, employee['vacancies'][number][item]['schedule']['name'],
                               employee['vacancies'][number][item]['experience']['name'],
                               employee['vacancies'][number][item]['alternate_url']))
+
         list_employers.append(Employers(employee['employers']['id'], employee['employers']['name'],
                                         employee['employers']['area']['name'], 'Россия',
                                         re.sub(r'<.*?>', '', str(employee['employers']['description'])),
                                         employee['employers']['industries'][0]['name'],
                                         list_vacancies))
     return list_employers
-
-
-def get_list_employers(employers):
-    """Получение списка работодателей с информацией из класса для заполнения БД"""
-    rows = []
-    for item in employers:
-        rows.append([item.employers_id, item.title, item.city, item.country, item.description, item.industries])
-    return rows
-
-
-def get_list_vacancies(employers):
-    """Получение списка вакансий с информацией из класса для заполнения БД"""
-    rows = []
-    for item in employers:
-        for i in range(0, len(item.vacancies)):
-            rows.append(
-                [item.vacancies[i].vacancy_id, item.employers_id, item.vacancies[i].name, item.vacancies[i].city,
-                 item.vacancies[i].salary_from, item.vacancies[i].salary_to, item.vacancies[i].requirement,
-                 item.vacancies[i].description, item.vacancies[i].vacancy_type, item.vacancies[i].address,
-                 item.vacancies[i].schedule, item.vacancies[i].experience, item.vacancies[i].alternate_url])
-    return rows

@@ -131,3 +131,4 @@ dmypy.json
 .pyre/
 
 poetry.lock
+database.ini
