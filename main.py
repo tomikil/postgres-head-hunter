@@ -39,10 +39,6 @@ def main():
             n = 0
             print("Программа завершила работу!")
 
-    # for item in data:
-    #     for i in range(0, len(item.vacancies)):
-    #         print(item.vacancies[i].vacancy_id)
-
 
 if __name__ == '__main__':
     main()
