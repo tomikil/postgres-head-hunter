@@ -25,7 +25,7 @@ class HeadHunterAPI:
                     list_vacancies = []
                     employers = requests.get(f"https://api.hh.ru/employers/{employer}")
                     employers_json = employers.json()
-                    for page in range(0, 10):
+                    for page in range(0, 20):
                         vacancy = requests.get(f"https://api.hh.ru/vacancies?employer_id={employer}",
                                                params={'areas': areas, 'page': page, 'per_page': 100})
                         vacancy_json = vacancy.json()['items']
