@@ -40,7 +40,7 @@ class DBManager:
                         f"requirement text,"
                         f"description text,"
                         f"vacancy_type varchar(20),"
-                        f"address varchar(150),"
+                        f"address varchar(200),"
                         f"schedule varchar(20),"
                         f"experience varchar(150),"
                         f"alternate_url varchar(100),"
@@ -62,7 +62,15 @@ class DBManager:
                 employers_id = cur.fetchone()[0]
                 vacancies = employers.vacancies
                 for i in range(0, len(employers.vacancies)):
-                    cur.execute(f"INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    cur.execute(f"DO\n"
+                                f"$$\n"
+                                f"BEGIN\n"
+                                f"IF NOT EXISTS (SELECT * FROM vacancies WHERE vacancies_id = {vacancies[i].vacancy_id} LIMIT 1) THEN\n"
+                                f"INSERT INTO vacancies VALUES (%s, %s, %s, %s, %s, %s, %s, %s, "
+                                f"%s, %s, %s, %s, %s);\n"
+                                f"END IF;\n"
+                                f"END;\n"
+                                f"$$",
                                 (vacancies[i].vacancy_id, employers_id,
                                  vacancies[i].name, vacancies[i].city,
                                  vacancies[i].salary_from, vacancies[i].salary_to,
